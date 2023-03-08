@@ -1,6 +1,6 @@
 ﻿
 
-
+console.log('app.js');
 function getdata(){ 
     let datas = new XMLHttpRequest()
 
@@ -11,23 +11,27 @@ datas.onreadystatechange = function (){
     }
 }
 
-datas.open("GET", "https://localhost:7210/api/APIconteroller", true);
+datas.open("POST", "https://localhost:7210/api/APIconteroller", true);
 datas.send()
 
 }
 
 
-
 let input = document.querySelector("#name");
 let send = document.querySelector("#post");
-
-
-
-send.onclick=()=>{
-    if( input.value !== ""){
-    let val = input.value
-    
+$(send).click(function(){
+    data = {
+        id: 0,
+        name : input.value
     }
+    xx = JSON.stringify(data)
+    console.log(xx)
+    console.log("fjsdlkfjdlskf")
+    $.post("https://localhost:7210/Group",data);
+  }); 
 
 
-}
+
+
+
+
