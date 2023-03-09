@@ -10,7 +10,9 @@ namespace ZOPE.DataBase
         {
             options.UseMySql(connectionString: $@"datasource={Config.DB_Host};username={Config.DB_Username};password={Config.DB_Password};database={Config.DB_Name};SslMode=none", new MySqlServerVersion(Config.DB_Version));
         }
-        public DbSet<Student>students { get; set; }
+        public DbSet<Student>Students { get; set; }
         public DbSet<Group>Groups { get; set; }
+        public DbSet<Degree>Degrees { get; set; }
+        public DbSet<Exam>Exams { get; set; }
     }
 }   
