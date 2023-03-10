@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using ZOPE.DataBase;
 using ZOPE.Models;
 namespace ZOPE.Controllers.API
@@ -12,6 +10,9 @@ namespace ZOPE.Controllers.API
     public class APIconteroller : ControllerBase
     {
         public readonly MainContext _db = new MainContext();
+
+
+        // ------------------------------GROUP-------------------------
         [HttpGet("/Group")]
         public async Task<ActionResult<List<Group>>> GetGroups()
         {
@@ -30,82 +31,127 @@ namespace ZOPE.Controllers.API
                 return Ok(group);
         }
         [HttpPost("/Group")]
-        public async Task<ActionResult> AddGroup(Group group)
+        public async Task<ActionResult<List<Group>>> AddGroup(GroupDto group)
         {
             Console.WriteLine(group.name);
             Group group1 = new Group();
             group1.name = group.name;
             _db.Groups.Add(group1);
             _db.SaveChanges();
-            string[] x = { "Pst", "laith", "Mmo2ze", "Fuck off" };
-            return Ok(x);
+
+            return Ok(_db.Groups.ToList());
         }
+
+        // ------------------------------STUDENT-------------------------
         [HttpGet("/Student")]
-        public async Task<ActionResult> GetStudents()
+        public ActionResult<List<Student>> GetStudents()
         {
-            List<Student> Students = _db.students.ToList();
+            List<Student> Students = _db.Students.ToList();
             return Ok(Students);
         }
 
 
         [HttpPost("/Student")]
-        public async Task<ActionResult<List<Student>>> AddStudent(StudentDto student)
+        public ActionResult<List<Student>> AddStudent(StudentDto request)
         {
-            Student student1 = new Student();
-            student1.email = student.email;
-            student1.name = student.name;
-            student1.groupId = student.groupId;
-            _db.students.Add(student1);
+            Student student = new Student();
+            student.email = request.email;
+            student.name = request.name;
+            student.groupId = request.groupId;
+            student.phone = request.phone;
+            _db.Students.Add(student);
             _db.SaveChanges();
-            List<Student> students = _db.students.ToList();
-            return Ok(students);
+            List<Student> students = _db.Students.ToList();
+            return Ok("d");
         }
 
         [HttpPut("/Student")]
-        public async Task<ActionResult<Student>> UpdateStudents(StudentDto request)
+        public ActionResult<Student> UpdateStudents(StudentDto request)
         {
-            Student student = _db.students.Find(request.id);
+            Student student = _db.Students.Find(request.id);
             if (student == null)
             {
                 return NotFound("This student dose not exist");
             }
-            else
-            {
-                student.name = request.name;
+            if (request.email != "")
                 student.email = request.email;
+            if (request.name != "")
+                student.name = request.name;
+            if (request.groupId != 0)
                 student.groupId = request.groupId;
-                _db.students.Update(student);
-                _db.SaveChanges();
-                return Ok(student);
-            }
+            _db.Students.Update(student);
+            _db.SaveChanges();
+            return Ok(student);
         }
-        [HttpPut("/Student/{id}&{name}")]
-        public async Task<ActionResult<Student>> UpdateStudentsName(int id,string name)
+
+        [HttpDelete("/Student/{id}")]
+        public ActionResult DeleteStudents(int id)
         {
-            Student student = _db.students.Find(id);
+            Student student = _db.Students.Find(id);
+
             if (student == null)
             {
                 return NotFound("This student dose not exist");
             }
-            else
-            {
-                student.name = name;
-                _db.students.Update(student);
-                _db.SaveChanges();
-                return Ok(student);
-            }
-        }
-        [HttpDelete("/Student")]
-        public async Task<ActionResult> DeleteStudents(int id)
-        {
-            Student student = _db.students.Find(id);
-            if (student == null)
-            {
-                return NotFound("This student dose not exist");
-            }
-            _db.students.Remove(student);
+
+            _db.Students.Remove(student);
             _db.SaveChanges();
             return Ok("Success");
+        }
+
+        // ------------------------------EXAM-------------------------
+        [HttpGet("/exams")]
+        public IActionResult GetExams()
+        {
+            List<Exam> exams = _db.Exams.ToList();
+            return Ok(exams);
+        }
+        [HttpPost("/exam")]
+        public IActionResult AddExam(ExamDto request)
+        {
+            Exam exam = new Exam();
+            exam.Date = DateTime.Now;
+            exam.max = request.max;
+            exam.min = request.min;
+            exam.questions = request.questions;
+            _db.Exams.Add(exam);
+            _db.SaveChanges();
+            return Ok(_db.Exams.ToList());
+        }
+
+        // ------------------------------DEGREE-------------------------
+        [HttpGet("/Degrees")]
+        public IActionResult GetDegrees()
+        {
+            var student =  _db.Students.Include(c => c.group)
+            .Include(c => c.degrees)
+            .ToList();
+            Console.WriteLine(student[0].id);
+            var dbDegrees = _db.Degrees.Where(c => c.id == 1);
+            for (int j = 0; j < student.Count; j++)
+            {
+                List<Degree> degrees = new List<Degree>();
+
+                for (int i = 0; i < student[j].degrees.Count; i++)
+                {
+                    var x = dbDegrees.Include(c => c.Exam);
+                    degrees.AddRange(x);
+                }
+                student[j].degrees = degrees;
+            }
+            return Ok(student);
+        }
+
+        [HttpPost("/Degree")]
+        public IActionResult AddDegree(DegreeDto request)
+        {
+            Degree degree = new Degree();
+            degree.ExamId = request.ExamId;
+            degree.StudentId = request.StudentId;
+            degree.value = request.value;
+            _db.Degrees.Add(degree);
+            _db.SaveChanges();
+            return Ok(degree);
         }
     }
 }
