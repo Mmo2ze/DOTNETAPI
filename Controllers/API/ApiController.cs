@@ -141,7 +141,6 @@ namespace ZOPE.Controllers.API
             }
             return Ok(student);
         }
-
         [HttpPost("/Degree")]
         public IActionResult AddDegree(DegreeDto request)
         {
