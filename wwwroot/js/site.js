@@ -4,7 +4,7 @@ let sentgroub = document.getElementById("sentgroub");
 sentgroub.addEventListener("click", () => {
 
   if (groub.value != "") {
-    $.ajax({
+     $.ajax({
       url: "https://localhost:7210/Group",
       type: "Post",
       data: JSON.stringify({
@@ -15,7 +15,11 @@ sentgroub.addEventListener("click", () => {
         console.log(data);
       },
       error: function (er) {
+<<<<<<< HEAD
         console.log(er.ta)
+=======
+        console.log(er.responseText)
+>>>>>>> 38ebe4e08093a0432ea79ee40cfb7c3dbf44d7d8
       },
     });
 
@@ -41,13 +45,15 @@ function delet(){
 
 
 getdata.addEventListener("click", async () => {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 38ebe4e08093a0432ea79ee40cfb7c3dbf44d7d8
   d.innerHTML = " "
   await $.ajax({
     url: "https://localhost:7210/Group",
     type: "Get",
-    data: '', //{ Name: name, 
-    // Address: address, DOB: dob },
+    data: '',  
     contentType: 'application/json; charset=utf-8',
     success: function (data) {
       x = data
@@ -57,17 +63,14 @@ getdata.addEventListener("click", async () => {
     }
   });
   for (let i = 0; i < x.length; i++) {
-
     head = document.createElement("tr");
     head.className = "he"
     infodata = document.createElement("td");
     infodataloop = document.createTextNode(x[i].name);
     infodata.appendChild(infodataloop);
     head.appendChild(infodata)
-    
     d.appendChild(head)
     
-    // showdata.innerHTML = x[i].name
   }
 
 
