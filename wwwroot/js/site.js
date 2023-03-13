@@ -15,7 +15,7 @@ sentgroub.addEventListener("click", () => {
         console.log(data);
       },
       error: function (er) {
-        console.log(er)
+        console.log(er.ta)
       },
     });
 
@@ -42,6 +42,7 @@ function delet(){
 
 getdata.addEventListener("click", async () => {
 
+  d.innerHTML = " "
   await $.ajax({
     url: "https://localhost:7210/Group",
     type: "Get",
@@ -68,10 +69,7 @@ getdata.addEventListener("click", async () => {
     
     // showdata.innerHTML = x[i].name
   }
-  getdata.addEventListener("click",()=>{
-  head.innerHTML = " "
-    d.innerHTML = " "
-})
+
 
 });
 
