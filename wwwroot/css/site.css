@@ -35,9 +35,12 @@ tr:nth-child(even) {
   display: block;
   font-weight: bold;
   font-size: 20px;
+  position: relative;
+}
+.he:not(:last-child){
   margin-bottom: 20px;
   border-bottom: 2px solid red;
-  position: relative;
+
 }
 .he::before{
   content: "X";

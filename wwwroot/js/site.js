@@ -15,11 +15,11 @@ sentgroub.addEventListener("click", () => {
         console.log(data);
       },
       error: function (er) {
-<<<<<<< HEAD
+
         console.log(er.ta)
-=======
+
         console.log(er.responseText)
->>>>>>> 38ebe4e08093a0432ea79ee40cfb7c3dbf44d7d8
+
       },
     });
 
@@ -45,10 +45,6 @@ function delet(){
 
 
 getdata.addEventListener("click", async () => {
-<<<<<<< HEAD
-
-=======
->>>>>>> 38ebe4e08093a0432ea79ee40cfb7c3dbf44d7d8
   d.innerHTML = " "
   await $.ajax({
     url: "https://localhost:7210/Group",
