@@ -14,8 +14,8 @@ $.ajax({
   success: function (data) {
     console.log(data);
   },
-  error: function () {
-    alert("error");
+  error: function (er) {
+      console.log(er)
   },
 });
 
@@ -39,12 +39,17 @@ $.ajax({
      // Address: address, DOB: dob },
     contentType: 'application/json; charset=utf-8',
     success: function (data) { console.log(data)
-        x = data},
-    error: function () { alert('error'); }
+        x = data
+      console.log(x)},
+    error: function (e) {
+      console.log(e)
+     
+      }
 });
 
 for(let i = 0 ; i < x.length ; i++){
     showdata.innerHTML = x[i].name
+    
 }
 
 });
