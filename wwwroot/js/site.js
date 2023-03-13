@@ -55,7 +55,7 @@ getdata.addEventListener("click", async () => {
       x = data
     },
     error: function (e) {
-      console.log(e)
+      console.log(e.responseText)
     }
   });
   for (let i = 0; i < x.length; i++) {
@@ -78,9 +78,19 @@ getdata.addEventListener("click", async () => {
     head.appendChild(add);    
     d.appendChild(head)
 
-dele.addEventListener("click",(e)=>{
+dele.addEventListener("click", async(e)=>{
   alert("are you sure");
-console.log(e.target.parentElement.id);
+ let id  = (e.target.parentElement.id);
+ await $.ajax({
+  url: `https://localhost:7210/Group/${id}`,
+  type: "Delete",
+  data: '', 
+  contentType: 'application/json; charset=utf-8',
+  success: function () {
+    document.getElementById(id).style="display:none";
+   },
+  error: function (e) { console.log(e) }
+});
 })
 
 
