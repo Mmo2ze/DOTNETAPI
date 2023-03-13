@@ -47,6 +47,7 @@ namespace ZOPE.Controllers.API
         [HttpPut("/Group/{id}")]
         public async Task<ActionResult<Group>> UpdateGroup(int id, GroupDto request)
         {
+            Console.WriteLine(true);
             Group group = _db.Groups.Find(id);
             var x = _db.Groups.Where(c => c.name == request.name);
             if (x.Count() != 0)
@@ -61,6 +62,7 @@ namespace ZOPE.Controllers.API
             {
                 return BadRequest("name cant be empty.");
             }
+            group.name = request.name;
             _db.Groups.Update(group);
             _db.SaveChanges();
             return Ok(group);
