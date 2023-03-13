@@ -32,7 +32,16 @@ let getdata = document.getElementById("getgroub");
 let showdata = document.getElementById("showdata")
 let d = document.getElementById("d");
 
+
+
+function delet(){
+
+
+}
+
+
 getdata.addEventListener("click", async () => {
+
   await $.ajax({
     url: "https://localhost:7210/Group",
     type: "Get",
@@ -47,14 +56,22 @@ getdata.addEventListener("click", async () => {
     }
   });
   for (let i = 0; i < x.length; i++) {
+
     head = document.createElement("tr");
+    head.className = "he"
     infodata = document.createElement("td");
     infodataloop = document.createTextNode(x[i].name);
     infodata.appendChild(infodataloop);
     head.appendChild(infodata)
+    
     d.appendChild(head)
+    
     // showdata.innerHTML = x[i].name
   }
+  getdata.addEventListener("click",()=>{
+  head.innerHTML = " "
+    d.innerHTML = " "
+})
 
 });
 
