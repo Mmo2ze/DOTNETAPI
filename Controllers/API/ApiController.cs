@@ -31,17 +31,55 @@ namespace ZOPE.Controllers.API
                 return Ok(group);
         }
         [HttpPost("/Group")]
-        public async Task<ActionResult<List<Group>>> AddGroup(GroupDto group)
+        public async Task<ActionResult<List<Group>>> AddGroup(GroupDto request)
         {
-            Console.WriteLine(group.name);
-            Group group1 = new Group();
-            group1.name = group.name;
-            _db.Groups.Add(group1);
+            var x = _db.Groups.Where(c => c.name == request.name);
+            if (x.Count() != 0)
+            {
+                return BadRequest("This Group Name already exist.");
+            }
+            Group group = new Group();
+            group.name = request.name;
+            _db.Groups.Add(group);
             _db.SaveChanges();
-
-            return Ok(_db.Groups.ToList());
+            return Ok(group);
         }
+        [HttpPut("/Group/{id}")]
+        public async Task<ActionResult<Group>> UpdateGroup(int id, GroupDto request)
+        {
+            Group group = _db.Groups.Find(id);
+            var x = _db.Groups.Where(c => c.name == request.name);
+            if (x.Count() != 0)
+            {
+                return BadRequest("This Group Name already exist.");
+            }
+            if (group == null)
+            {
+                return NotFound("This Group does not exist.");
+            }
+            if (request.name == null || request.name.Length == 0)
+            {
+                return BadRequest("name cant be empty.");
+            }
+            _db.Groups.Update(group);
+            _db.SaveChanges();
+            return Ok(group);
+        }
+        
+        [HttpDelete("/Group/{id}")]
+        public ActionResult DeleteGroup(int id)
+        {
+            Group group = _db.Groups.Find(id);
 
+            if (group == null)
+            {
+                return NotFound("This student dose not exist");
+            }
+
+            _db.Groups.Remove(group);
+            _db.SaveChanges();
+            return Ok("Success");
+        }
         // ------------------------------STUDENT-------------------------
         [HttpGet("/Student")]
         public ActionResult<List<Student>> GetStudents()
@@ -123,7 +161,7 @@ namespace ZOPE.Controllers.API
         [HttpGet("/Degrees")]
         public IActionResult GetDegrees()
         {
-            var student =  _db.Students.Include(c => c.group)
+            var student = _db.Students.Include(c => c.group)
             .Include(c => c.degrees)
             .ToList();
             Console.WriteLine(student[0].id);

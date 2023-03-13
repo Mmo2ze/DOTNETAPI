@@ -8,7 +8,6 @@ namespace ZOPE.Models
 {
     public class GroupDto
     {
-        public int id { get; set; }
         public string name { get; set; }
 
         
