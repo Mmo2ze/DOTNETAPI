@@ -42,7 +42,33 @@ tr:nth-child(even) {
   border-bottom: 2px solid red;
 
 }
-.he::before{
+.delete{
+ position: absolute;
+    top: 0;
+    border: navajowhite;
+    background: transparent;
+    right: 20px;
+    font-size: 28px;
+    color: red;
+    font-weight: bold;
+}
+
+
+.add{
+ position: absolute;
+    top: 0;
+    border: navajowhite;
+    background: transparent;
+    right: 80px;
+    font-size: 30px;
+    color: rgb(0, 255, 0);
+    font-weight: bold;
+
+}
+
+
+
+/* .he::before{
   content: "X";
   cursor: pointer;
     position: absolute;
@@ -60,4 +86,4 @@ tr:nth-child(even) {
     right: 100px;
     font-size: 29px;
     color: rgb(0, 255, 38);
-}
+} */

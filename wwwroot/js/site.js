@@ -4,7 +4,7 @@ let sentgroub = document.getElementById("sentgroub");
 sentgroub.addEventListener("click", () => {
 
   if (groub.value != "") {
-     $.ajax({
+      $.ajax({
       url: "https://localhost:7210/Group",
       type: "Post",
       data: JSON.stringify({
@@ -65,8 +65,26 @@ getdata.addEventListener("click", async () => {
     infodata = document.createElement("td");
     infodataloop = document.createTextNode(x[i].name);
     infodata.appendChild(infodataloop);
+    let dele = document.createElement("button")
+    let ds = document.createTextNode("X")
+    dele.appendChild(ds)
+    dele.className="delete"
+    let add = document.createElement("button");
+    let addte = document.createTextNode("&");
+    add.appendChild(addte);
+    add.className = "add";
     head.appendChild(infodata)
+    head.appendChild(dele)    
+    head.appendChild(add);    
     d.appendChild(head)
+
+dele.addEventListener("click",(e)=>{
+  alert("are you sure");
+console.log(e.target.parentElement.id);
+})
+
+
+
 
   }
 
