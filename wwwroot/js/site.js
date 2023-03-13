@@ -60,13 +60,14 @@ getdata.addEventListener("click", async () => {
   });
   for (let i = 0; i < x.length; i++) {
     head = document.createElement("tr");
-    head.className = "he"
+    head.className = "he";
+    head.setAttribute("id", x[i].id);
     infodata = document.createElement("td");
     infodataloop = document.createTextNode(x[i].name);
     infodata.appendChild(infodataloop);
     head.appendChild(infodata)
     d.appendChild(head)
-    
+
   }
 
 
